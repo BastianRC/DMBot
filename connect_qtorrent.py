@@ -1,6 +1,6 @@
 from Data_Folder.config_bot import Config as cg
 from qbittorrent import Client
-import time, os, sys
+import time, sys
 
 class ConnectQB:
     def __init__(self):
