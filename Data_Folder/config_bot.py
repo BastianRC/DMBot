@@ -1,6 +1,7 @@
 class Config:
     #download_movie
     PATH_SAVE = "/home/Familia/Peliculas"
+    TIME_SEARCH = 3600
 
     #connect_qtorrent
     HOST = "IP_HOST"

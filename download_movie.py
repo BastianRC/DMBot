@@ -17,6 +17,6 @@ class Download_MBot:
                     print("Información cambiada")
             else:
                 print("Estrenos no actualizados.")
-                time.sleep(120)
+                time.sleep(cg.TIME_SEARCH)
 
 dmBot = Download_MBot()
