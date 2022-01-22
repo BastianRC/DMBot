@@ -40,7 +40,7 @@ class GetDataMovies:
         
         rData = self.mdt.ReadData(cg.PATH_DATA_FOLDER + cg.FILE_NAME)
 
-        if(self.year >= cg.YEAR_SEARCH):
+        if(int(self.year) >= cg.YEAR_SEARCH):
             if(rData is None):
                 self.mdt.WriteData(cg.PATH_DATA_FOLDER + cg.FILE_NAME,[url_info, self.name, self.quality, self.lang, self.year])
 
