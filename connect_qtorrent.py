@@ -1,3 +1,4 @@
+import datetime
 from Data_Folder.config_bot import Config as cg
 from qbittorrent import Client
 import time, sys
@@ -33,9 +34,9 @@ class ConnectQB:
                     print()
                     first = True
 
-                char = "=" * progress + "-" * (100 - progress)
+                #char = "=" * progress + "-" * (100 - progress)
                 
-                print("\r{}: [{}] {}{}".format(self.nameFile, char, progress, ("%")), end="", flush=True)
+                #print("\r{}: [{}] {}{}".format(self.nameFile, char, progress, ("%")), end="", flush=True)
 
                 #Only Python 2.x
                 #sys.stdout.write("\r%s: [%s] %s%s" % (self.nameFile, char, progress, "%"))
@@ -43,7 +44,7 @@ class ConnectQB:
 
                 #if(state == "stalledUP" or state == "uploading"):
                 if(progress == 100):
-                    print("\nDescarga finalizada")
+                    print("\nDescarga finalizada.\nNombre: " + self.nameFile + "\nFecha: " + datetime.datetime.now)
                     return True
 
             elif(state != "downloading"):
