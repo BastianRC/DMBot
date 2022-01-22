@@ -10,7 +10,7 @@ class GetDataMovies:
         self.soup = bs(r.text, 'lxml')
 
         if(r.status_code == 200):
-            print("La web se ha cargado correctamente.")
+            print("\nLa web se ha cargado correctamente.")
             self.mdt = SaveMovieData()
         else:
             print("Error al cargar la web: " + r.status_code)

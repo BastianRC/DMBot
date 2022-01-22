@@ -14,9 +14,12 @@ class Download_MBot:
                 qb = ConnectQB()
                 if(qb.Download(url, cg.PATH_SAVE)):
                     gm.UpdateMovieDownloaded(qb.nameFile, qb.nameFile[len(qb.nameFile) - 3:len(qb.nameFile)])
-                    print("Información cambiada")
+                    print("Información cambiada.")
             else:
                 print("Estrenos no actualizados.")
                 time.sleep(cg.TIME_SEARCH)
 
-dmBot = Download_MBot()
+try:
+    dmBot = Download_MBot()
+except KeyboardInterrupt:
+    print("Bot apagado.")
