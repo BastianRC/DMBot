@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup as bs
 from Data_Folder.config_bot import Config as cg
 from save_torrents import SaveMovieData
-import requests, subprocess
+import requests, subprocess, os
 
 class GetDataMovies:
     def __init__(self):
@@ -41,17 +41,21 @@ class GetDataMovies:
 
         if(rData is None):
             self.mdt.WriteData(cg.PATH_DATA_FOLDER + cg.FILE_NAME,[url_info, self.name, self.quality, self.lang, self.year])
+
+            print("Estreno encontrado.")
             return str(torrent)
         elif(not rData[0] == url_info and not rData[2] == self.quality and not rData[4] == self.year):
             self.mdt.WriteData(cg.PATH_DATA_FOLDER + cg.FILE_NAME,[url_info, self.name, self.quality, self.lang, self.year])
+
+            print("Estreno encontrado.")
             return str(torrent)
         else:
             return None
     
     def UpdateMovieDownloaded(self, name, format):
         subprocess.call(["mv", cg.PATH_SAVE + "/" + name, cg.PATH_SAVE + "/" + self.name + " (" + self.year + ")." + format])
-        subprocess.call(["chmod", "644", cg.PATH_SAVE + "/*"])
-        subprocess.call(["chown", "root:root", cg.PATH_SAVE + "/*"])
+        os.chmod(cg.PATH_SAVE + "/" + self.name + " (" + self.year + ")." + format, 0o644)
+        os.chown(cg.PATH_SAVE + "/" + self.name + " (" + self.year + ")." + format, 0, 0)
 
 if __name__ == "__main__":
     urlMovies = GetDataMovies()
