@@ -44,7 +44,7 @@ class ConnectQB:
 
                 #if(state == "stalledUP" or state == "uploading"):
                 if(progress == 100):
-                    print("\nDescarga finalizada.\nNombre: " + self.nameFile + "\nFecha: " + str(datetime.datetime.now))
+                    print("\nDescarga finalizada.\nNombre: " + self.nameFile + "\nFecha: " + str(datetime.datetime.now()))
                     return True
 
             elif(state != "downloading"):
