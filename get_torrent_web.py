@@ -1,3 +1,4 @@
+import time
 from bs4 import BeautifulSoup as bs
 from Data_Folder.config_bot import Config as cg
 from save_torrents import SaveMovieData
@@ -39,16 +40,19 @@ class GetDataMovies:
         
         rData = self.mdt.ReadData(cg.PATH_DATA_FOLDER + cg.FILE_NAME)
 
-        if(rData is None):
-            self.mdt.WriteData(cg.PATH_DATA_FOLDER + cg.FILE_NAME,[url_info, self.name, self.quality, self.lang, self.year])
+        if(self.year >= cg.YEAR_SEARCH):
+            if(rData is None):
+                self.mdt.WriteData(cg.PATH_DATA_FOLDER + cg.FILE_NAME,[url_info, self.name, self.quality, self.lang, self.year])
 
-            print("Estreno encontrado.")
-            return str(torrent)
-        elif(not rData[0] == url_info and not rData[2] == self.quality and not rData[4] == self.year):
-            self.mdt.WriteData(cg.PATH_DATA_FOLDER + cg.FILE_NAME,[url_info, self.name, self.quality, self.lang, self.year])
+                print("Estreno encontrado.")
+                return str(torrent)
+            elif(not rData[0] == url_info and not rData[2] == self.quality and not rData[4] == self.year):
+                self.mdt.WriteData(cg.PATH_DATA_FOLDER + cg.FILE_NAME,[url_info, self.name, self.quality, self.lang, self.year])
 
-            print("Estreno encontrado.")
-            return str(torrent)
+                print("Estreno encontrado.")
+                return str(torrent)
+            else:
+                return None
         else:
             return None
     
