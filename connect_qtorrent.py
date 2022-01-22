@@ -34,7 +34,6 @@ class ConnectQB:
                     first = True
 
                 char = "=" * progress + "-" * (100 - progress)
-                #sys.stdout.write("\r{} [{}] {}{}".format(self.nameFile, ("=" * progress + "-" * (100 - progress)), progress, ("%")))
                 sys.stdout.write("\r%s: [%s] %s%s" % (self.nameFile, char, progress, "%"))
                 sys.stdout.flush()
 
