@@ -50,8 +50,8 @@ class GetDataMovies:
     
     def UpdateMovieDownloaded(self, name, format):
         subprocess.call(["mv", cg.PATH_SAVE + "/" + name, cg.PATH_SAVE + "/" + self.name + " (" + self.year + ")." + format])
-        subprocess.call(["chmod", "+r", cg.PATH_SAVE + "/" + "*"])
-        subprocess.call(["chown", "root:root", cg.PATH_SAVE + "/" + "*"])
+        subprocess.call(["chmod", "644", cg.PATH_SAVE + "/*"])
+        subprocess.call(["chown", "root:root", cg.PATH_SAVE + "/*"])
 
 if __name__ == "__main__":
     urlMovies = GetDataMovies()
