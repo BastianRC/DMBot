@@ -1,3 +1,4 @@
+from operator import le
 import time
 from bs4 import BeautifulSoup as bs
 from Data_Folder.config_bot import Config as cg
@@ -17,44 +18,57 @@ class GetDataMovies:
     
     def GetUrlInfo(self):
         data = self.soup.find("ul", attrs={"class":"miniboxs miniboxs-ficha"}).find_all("li")
-        self.name = str(data[0].find("div", attrs={"class":"meta"}).get_text()).replace("\n", "")
 
-        self.lang = str(data[0].find("div", attrs={"class":"imagen"}).find("span", attrs={"id":"idiomacio"}).find("img")["title"])
-        self.quality = data[0].find("div", attrs={"class":"imagen"}).find("span", attrs={"style":"right: 0px;left: auto;max-width: 60%;"}).i.get_text()
-        
-        final_data = None
+        self.name = []
+        self.lang = []
+        self.quality = []
+        self.final_data = []
 
-        if(self.lang.endswith("VOSE") or self.lang.endswith("Castellano") and self.quality == "HDTV" or self.quality == "DVDrip"):
-            final_data = data[0].find("div", attrs={"class":"meta"}).a.get("href")
+        for i in range(5):
+            self.name.append(str(data[i].find("div", attrs={"class":"meta"}).get_text()).replace("\n", ""))
 
-        return final_data
+            self.lang.append(str(data[i].find("div", attrs={"class":"imagen"}).find("span", attrs={"id":"idiomacio"}).find("img")["title"]))
+            self.quality.append(data[i].find("div", attrs={"class":"imagen"}).find("span", attrs={"style":"right: 0px;left: auto;max-width: 60%;"}).i.get_text())
+
+            if(self.lang[i].endswith("VOSE") or self.lang[i].endswith("Castellano") and self.quality[i] == "HDTV" or self.quality[i] == "DVDrip"):
+                self.final_data.append(data[i].find("div", attrs={"class":"meta"}).a.get("href"))
+
+        return self.final_data
     
     def GetUrlDownload(self):
         url_info = self.GetUrlInfo()
-        r = requests.get(url_info, cg.HEADERS)
+        list_torrents = []
 
-        soup = bs(r.text, 'lxml')
-
-        self.year = soup.find("p", attrs={"class":"descrip"}).find("span").get_text().replace("Fecha: ", "").split("-")[0]
-        torrent = soup.find("div", attrs={"class":"enlace_descarga"}).find_all("a", attrs={"class":"enlace_torrent degradado1"})[1].get('href')
-        
+        count = 0
         rData = self.mdt.ReadData(cg.PATH_DATA_FOLDER + cg.FILE_NAME)
 
-        if(int(self.year) >= cg.YEAR_SEARCH):
-            if(rData is None):
-                self.mdt.WriteData(cg.PATH_DATA_FOLDER + cg.FILE_NAME,[url_info, self.name, self.quality, self.lang, self.year])
+        for url in url_info:
+            r = requests.get(url, cg.HEADERS)
 
-                print("Estreno encontrado.")
-                return str(torrent)
-            elif(not rData[0] == url_info and not rData[2] == self.quality and not rData[4] == self.year):
-                self.mdt.WriteData(cg.PATH_DATA_FOLDER + cg.FILE_NAME,[url_info, self.name, self.quality, self.lang, self.year])
+            soup = bs(r.text, 'lxml')
 
-                print("Estreno encontrado.")
-                return str(torrent)
+            self.year = soup.find("p", attrs={"class":"descrip"}).find("span").get_text().replace("Fecha: ", "").split("-")[0]
+            torrent = soup.find("div", attrs={"class":"enlace_descarga"}).find_all("a", attrs={"class":"enlace_torrent degradado1"})[1].get('href')
+            
+            if(int(self.year) >= cg.YEAR_SEARCH):
+                if(rData is None):
+                    self.mdt.WriteData(cg.PATH_DATA_FOLDER + cg.FILE_NAME,[url, self.name[count], self.quality[count], self.lang[count], self.year])
+
+                    print("\nEstreno encontrado: " + self.name[count])
+                    list_torrents.append(str(torrent))
+                elif(not rData[count][0] == url and not rData[count][2] == self.quality[count] and not rData[count][4] == self.year):
+                    self.mdt.WriteData(cg.PATH_DATA_FOLDER + cg.FILE_NAME,[url, self.name[count], self.quality[count], self.lang[count], self.year])
+
+                    print("\nEstreno encontrado: " + self.name[count])
+                    list_torrents.append(str(torrent))
+                else:
+                    list_torrents.append(None)
             else:
-                return None
-        else:
-            return None
+                list_torrents.append(None)
+            
+            count += 1
+        
+        return list_torrents
     
     def UpdateMovieDownloaded(self, name, format):
         subprocess.call(["mv", cg.PATH_SAVE + "/" + name, cg.PATH_SAVE + "/" + self.name + " (" + self.year + ")." + format])

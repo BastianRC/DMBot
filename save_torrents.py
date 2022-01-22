@@ -28,7 +28,7 @@ class SaveMovieData:
                 all_data.append(iter.replace("\n", "").split(","))
         
         try:
-            return all_data[0]
+            return all_data
         except:
             return None
 
