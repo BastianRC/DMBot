@@ -34,8 +34,12 @@ class ConnectQB:
                     first = True
 
                 char = "=" * progress + "-" * (100 - progress)
-                sys.stdout.write("\r%s: [%s] %s%s" % (self.nameFile, char, progress, "%"))
-                sys.stdout.flush()
+                
+                print("\r{}: [{}] {}{}".format(self.nameFile, char, progress, ("%")), end="", flush=True)
+
+                #Only Python 2.x
+                #sys.stdout.write("\r%s: [%s] %s%s" % (self.nameFile, char, progress, "%"))
+                #sys.stdout.flush()
 
                 #if(state == "stalledUP" or state == "uploading"):
                 if(progress == 100):
