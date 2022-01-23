@@ -1,12 +1,10 @@
-import sys
-
 class Config:
     #download_movie
     PATH_SAVE = "/home/Familia/Peliculas"
     TIME_SEARCH = 3600
 
     #connect_qtorrent
-    HOST = sys.argv[1]
+    HOST = "IP_HOST"
     TIME_LIMIT = 60
     TRIES = 3
 
