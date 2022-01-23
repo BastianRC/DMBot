@@ -30,8 +30,7 @@ class GetDataMovies:
             self.lang.append(str(data[i].find("div", attrs={"class":"imagen"}).find("span", attrs={"id":"idiomacio"}).find("img")["title"]))
             self.quality.append(data[i].find("div", attrs={"class":"imagen"}).find("span", attrs={"style":"right: 0px;left: auto;max-width: 60%;"}).i.get_text())
 
-            if(self.lang[i].endswith("VOSE") or self.lang[i].endswith("Castellano") and self.quality[i] == "HDTV" or self.quality[i] == "DVDrip"):
-                self.final_data.append(data[i].find("div", attrs={"class":"meta"}).a.get("href"))
+            self.final_data.append(data[i].find("div", attrs={"class":"meta"}).a.get("href"))
 
         return self.final_data
     
@@ -51,7 +50,7 @@ class GetDataMovies:
             self.year.append(soup.find("p", attrs={"class":"descrip"}).find("span").get_text().replace("Fecha: ", "").split("-")[0])
             torrent = soup.find("div", attrs={"class":"enlace_descarga"}).find_all("a", attrs={"class":"enlace_torrent degradado1"})[1].get('href')
             
-            if(int(self.year[count]) >= cg.YEAR_SEARCH):
+            if(int(self.year[count]) >= cg.YEAR_SEARCH and self.lang[count].endswith("VOSE") or self.lang[count].endswith("Castellano") and self.quality[count] == "HDTV" or self.quality[count] == "DVDrip"):
                 if(rData is None):
                     self.mdt.WriteData(cg.PATH_DATA_FOLDER + cg.FILE_NAME,[url, self.name[count], self.quality[count], self.lang[count], self.year[count]])
 
@@ -63,13 +62,12 @@ class GetDataMovies:
                     print("\nEstreno encontrado: " + self.name[count])
                     list_torrents.append(str(torrent))
                 else:
-                    list_torrents.append(None)
+                    pass
             else:
-                list_torrents.append(None)
+                pass
             
             count += 1
         
-        print(self.year)
         return list_torrents
     
     def UpdateMovieDownloaded(self, name, format, index):
