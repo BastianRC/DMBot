@@ -10,13 +10,16 @@ class Download_MBot:
             gm = GetDataMovies()
             url_data = gm.GetUrlDownload()
             
+            count = 0
             for url in url_data:
                 if(url != None):
                     qb = ConnectQB()
 
                     if(qb.Download(url, cg.PATH_SAVE)):
-                        gm.UpdateMovieDownloaded(qb.nameFile, qb.nameFile[len(qb.nameFile) - 3:len(qb.nameFile)])
+                        gm.UpdateMovieDownloaded(qb.nameFile, qb.nameFile[len(qb.nameFile) - 3:len(qb.nameFile)], count)
                         print("Información cambiada.")
+
+                        count += 1
                 else:
                     print("Estrenos no actualizados.")
                     time.sleep(cg.TIME_SEARCH)

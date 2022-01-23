@@ -70,10 +70,10 @@ class GetDataMovies:
         
         return list_torrents
     
-    def UpdateMovieDownloaded(self, name, format):
-        subprocess.call(["mv", cg.PATH_SAVE + "/" + name, cg.PATH_SAVE + "/" + self.name + " (" + self.year + ")." + format])
-        os.chmod(cg.PATH_SAVE + "/" + self.name + " (" + self.year + ")." + format, 0o644)
-        os.chown(cg.PATH_SAVE + "/" + self.name + " (" + self.year + ")." + format, 0, 0)
+    def UpdateMovieDownloaded(self, name, format, index):
+        subprocess.call(["mv", cg.PATH_SAVE + "/" + name, cg.PATH_SAVE + "/" + self.name[index] + " (" + self.year[index] + ")." + format])
+        os.chmod(cg.PATH_SAVE + "/" + self.name[index] + " (" + self.year[index] + ")." + format, 0o644)
+        os.chown(cg.PATH_SAVE + "/" + self.name[index] + " (" + self.year[index] + ")." + format, 0, 0)
 
 if __name__ == "__main__":
     urlMovies = GetDataMovies()
