@@ -30,8 +30,7 @@ class ConnectQB:
             #if(state == "downloading" or state == "stalledUP" or state == "uploading"): # stalledUP -> Finalizado | pausedDL -> Empezando | downloading -> Descargando | uploading -> Subiendo
             if(progress != 101):    
                 if(not first):
-                    print("Descarga iniciada...")
-                    print()
+                    print("\nDescarga iniciada...")
                     first = True
 
                 #char = "=" * progress + "-" * (100 - progress)

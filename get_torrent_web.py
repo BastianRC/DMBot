@@ -24,7 +24,7 @@ class GetDataMovies:
         self.quality = []
         self.final_data = []
 
-        for i in range(5):
+        for i in range(cg.AMOUNT_SEARCH):
             self.name.append(str(data[i].find("div", attrs={"class":"meta"}).get_text()).replace("\n", ""))
 
             self.lang.append(str(data[i].find("div", attrs={"class":"imagen"}).find("span", attrs={"id":"idiomacio"}).find("img")["title"]))
@@ -41,23 +41,24 @@ class GetDataMovies:
 
         count = 0
         rData = self.mdt.ReadData(cg.PATH_DATA_FOLDER + cg.FILE_NAME)
+        self.year = []
 
         for url in url_info:
             r = requests.get(url, cg.HEADERS)
 
             soup = bs(r.text, 'lxml')
 
-            self.year = soup.find("p", attrs={"class":"descrip"}).find("span").get_text().replace("Fecha: ", "").split("-")[0]
+            self.year.append(soup.find("p", attrs={"class":"descrip"}).find("span").get_text().replace("Fecha: ", "").split("-")[0])
             torrent = soup.find("div", attrs={"class":"enlace_descarga"}).find_all("a", attrs={"class":"enlace_torrent degradado1"})[1].get('href')
             
-            if(int(self.year) >= cg.YEAR_SEARCH):
+            if(int(self.year[count]) >= cg.YEAR_SEARCH):
                 if(rData is None):
-                    self.mdt.WriteData(cg.PATH_DATA_FOLDER + cg.FILE_NAME,[url, self.name[count], self.quality[count], self.lang[count], self.year])
+                    self.mdt.WriteData(cg.PATH_DATA_FOLDER + cg.FILE_NAME,[url, self.name[count], self.quality[count], self.lang[count], self.year[count]])
 
                     print("\nEstreno encontrado: " + self.name[count])
                     list_torrents.append(str(torrent))
-                elif(not rData[count][0] == url and not rData[count][2] == self.quality[count] and not rData[count][4] == self.year):
-                    self.mdt.WriteData(cg.PATH_DATA_FOLDER + cg.FILE_NAME,[url, self.name[count], self.quality[count], self.lang[count], self.year])
+                elif(not rData[count][0] == url and not rData[count][2] == self.quality[count] and not rData[count][4] == self.year[count]):
+                    self.mdt.WriteData(cg.PATH_DATA_FOLDER + cg.FILE_NAME,[url, self.name[count], self.quality[count], self.lang[count], self.year[count]])
 
                     print("\nEstreno encontrado: " + self.name[count])
                     list_torrents.append(str(torrent))
@@ -68,6 +69,7 @@ class GetDataMovies:
             
             count += 1
         
+        print(self.year)
         return list_torrents
     
     def UpdateMovieDownloaded(self, name, format, index):
