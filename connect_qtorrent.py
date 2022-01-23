@@ -25,7 +25,7 @@ class ConnectQB:
 
             progress = int(float("{:.2f}".format(tr["progress"])) * 100)
             state = tr["state"]
-            self.nameFile = tr["name"]
+            self.nameFile = ""
 
             #if(state == "downloading" or state == "stalledUP" or state == "uploading"): # stalledUP -> Finalizado | pausedDL -> Empezando | downloading -> Descargando | uploading -> Subiendo
             if(progress != 101):    
@@ -43,6 +43,7 @@ class ConnectQB:
 
                 #if(state == "stalledUP" or state == "uploading"):
                 if(progress == 100):
+                    self.nameFile = tr["name"]
                     print("\nDescarga finalizada.\nNombre: " + self.nameFile + "\nFecha: " + str(datetime.datetime.now()))
                     return True
 
