@@ -11,8 +11,9 @@ class Download_MBot:
             url_data = gm.GetUrlDownload()
             
             count = 0
-            for url in url_data:
-                if(url != None):
+
+            if(url_data != []):
+                for url in url_data:
                     qb = ConnectQB()
 
                     if(qb.Download(url, cg.PATH_SAVE)):
@@ -20,9 +21,9 @@ class Download_MBot:
                         print("Información cambiada.")
 
                         count += 1
-                else:
-                    print("Estrenos no actualizados.")
-                    time.sleep(cg.TIME_SEARCH)
+            else:
+                print("\nEstrenos no actualizados.\nTiempo de espera: {} minutos.".format(int(cg.TIME_SEARCH / 60)))
+                time.sleep(cg.TIME_SEARCH)
 
 try:
     dmBot = Download_MBot()

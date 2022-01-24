@@ -19,13 +19,13 @@ class ConnectQB:
             time.sleep(1)
             
             try:
-                tr = self.qb.torrents()[len(self.qb.torrents()) - 1]
+                tr = self.qb.torrents()[0]
             except:
                 pass
 
             progress = int(float("{:.2f}".format(tr["progress"])) * 100)
             state = tr["state"]
-            self.nameFile = ""
+            self.nameFile = tr["name"]
 
             #if(state == "downloading" or state == "stalledUP" or state == "uploading"): # stalledUP -> Finalizado | pausedDL -> Empezando | downloading -> Descargando | uploading -> Subiendo
             if(progress != 101):    
@@ -40,10 +40,9 @@ class ConnectQB:
                 #Only Python 2.x
                 #sys.stdout.write("\r%s: [%s] %s%s" % (self.nameFile, char, progress, "%"))
                 #sys.stdout.flush()
-
+                
                 #if(state == "stalledUP" or state == "uploading"):
                 if(progress == 100):
-                    self.nameFile = tr["name"]
                     print("\nDescarga finalizada.\nNombre: " + self.nameFile + "\nFecha: " + str(datetime.datetime.now()))
                     return True
 
