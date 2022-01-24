@@ -28,4 +28,4 @@ class Download_MBot:
 try:
     dmBot = Download_MBot()
 except KeyboardInterrupt:
-    print("Bot apagado.")
+    print("\nBot apagado.")
