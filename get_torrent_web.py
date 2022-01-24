@@ -26,7 +26,7 @@ class GetDataMovies:
             lg = str(data[i].find("div", attrs={"class":"imagen"}).find("span", attrs={"id":"idiomacio"}).find("img")["title"])
             qt = data[i].find("div", attrs={"class":"imagen"}).find("span", attrs={"style":"right: 0px;left: auto;max-width: 60%;"}).i.get_text()
 
-            if(lg.endswith("VOSE") or lg.endswith("Castellano") and qt == "HDTV" or qt == "DVDrip"):
+            if(lg.endswith("VOSE") or lg.endswith("Castellano") and qt == "HDTV"):
                 self.name.append(str(data[i].find("div", attrs={"class":"meta"}).get_text()).replace("\n", ""))
                 self.lang.append(lg)
                 self.quality.append(qt)
