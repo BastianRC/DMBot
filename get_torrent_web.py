@@ -83,7 +83,10 @@ class GetDataMovies:
         return list_torrents
     
     def UpdateMovieDownloaded(self, name, format, index):
-        index += len(self.rData)
+        try:
+            index += len(self.rData)
+        except:
+            pass
 
         subprocess.call(["mv", cg.PATH_SAVE + "/" + name, cg.PATH_SAVE + "/" + self.name[index] + " (" + self.year[index] + ")." + format])
         os.chmod(cg.PATH_SAVE + "/" + self.name[index] + " (" + self.year[index] + ")." + format, 0o644)
