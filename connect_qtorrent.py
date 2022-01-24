@@ -46,11 +46,11 @@ class ConnectQB:
                 #if(state == "stalledUP" or state == "uploading"):
                 if(progress == 100):
                     print("\nDescarga finalizada.\nNombre: " + self.nameFile + "\nFecha: " + str(datetime.datetime.now()))
-                    self.qb.delete_permanently(tr["hash"])
+                    self.qb.delete(tr["hash"])
                     return True
                 elif(seg >= cg.TIME_LIMIT and progress == 0):
                     print("\nTiempo de inicio de descarga superado.\nNombre: " + self.nameFile + "\nFecha: " + str(datetime.datetime.now()))
-                    self.qb.delete_permanently(tr["hash"])
+                    self.qb.delete(tr["hash"])
                     break
 
             elif(state != "downloading"):
