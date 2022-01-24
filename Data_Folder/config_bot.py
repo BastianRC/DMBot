@@ -8,7 +8,6 @@ class Config:
     TIME_LIMIT = 120
     TRIES = 3
 
-
     #get_torrent_web
     PAGE_MOVIE = "https://elitetorrent.app/estrenos-23/"
     HEADERS = {
