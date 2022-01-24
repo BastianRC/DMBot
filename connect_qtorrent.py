@@ -51,7 +51,7 @@ class ConnectQB:
                 elif(seg >= cg.TIME_LIMIT and progress == 0):
                     print("\nTiempo de inicio de descarga superado.\nNombre: " + self.nameFile + "\nFecha: " + str(datetime.datetime.now()))
                     self.qb.delete(tr["hash"])
-                    break
+                    return False
 
             elif(state != "downloading"):
                 time.sleep(cg.TIME_LIMIT)

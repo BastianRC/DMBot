@@ -21,6 +21,8 @@ class Download_MBot:
                         print("Información cambiada.")
 
                         count += 1
+                    else:
+                        count += 1
             else:
                 print("\nEstrenos no actualizados.\nTiempo de espera: {} minutos.".format(int(cg.TIME_SEARCH / 60)))
                 time.sleep(cg.TIME_SEARCH)
