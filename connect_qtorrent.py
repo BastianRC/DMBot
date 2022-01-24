@@ -13,11 +13,13 @@ class ConnectQB:
         self.qb.download_from_link(torrent, save_path=pSave)
 
         count = 0
+        seg = 0
         first = False
 
         while(True):
             time.sleep(1)
-            
+            seg += 1
+
             try:
                 tr = self.qb.torrents()[0]
             except:
@@ -44,7 +46,12 @@ class ConnectQB:
                 #if(state == "stalledUP" or state == "uploading"):
                 if(progress == 100):
                     print("\nDescarga finalizada.\nNombre: " + self.nameFile + "\nFecha: " + str(datetime.datetime.now()))
+                    self.qb.delete_permanently(tr["hash"])
                     return True
+                elif(seg >= cg.TIME_LIMIT and progress == 0):
+                    print("\nTiempo de inicio de descarga superado.\nNombre: " + self.nameFile + "\nFecha: " + str(datetime.datetime.now()))
+                    self.qb.delete_permanently(tr["hash"])
+                    break
 
             elif(state != "downloading"):
                 time.sleep(cg.TIME_LIMIT)

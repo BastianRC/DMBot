@@ -5,8 +5,9 @@ class Config:
 
     #connect_qtorrent
     HOST = "IP_HOST"
-    TIME_LIMIT = 60
+    TIME_LIMIT = 120
     TRIES = 3
+
 
     #get_torrent_web
     PAGE_MOVIE = "https://elitetorrent.app/estrenos-23/"
