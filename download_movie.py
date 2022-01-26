@@ -3,7 +3,7 @@ from connect_qtorrent import ConnectQB
 from get_torrent_web import GetDataMovies
 from files_download import FilesDownloaded
 from Data_Folder.config_bot import Config as cg
-import time, asyncio
+import time
 
 class Download_MBot:
     def __init__(self):

@@ -1,6 +1,6 @@
 from sys import stdout
 from Data_Folder.config_bot import Config as cg
-import os, subprocess, sys
+import os, subprocess
 
 class FilesDownloaded: 
     def GetFile(self):

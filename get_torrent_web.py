@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from Data_Folder.config_bot import Config as cg
-import requests, os, subprocess
+import requests, os
 
 class GetDataMovies:
     def __init__(self):
