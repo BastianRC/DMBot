@@ -46,6 +46,10 @@ class GetDataMovies:
         url_info_final = self.GetUrlMovie()
         chromeOptions = Options()
         chromeOptions.headless = True
+        chromeOptions.add_argument('--headless')
+        chromeOptions.add_argument('--no-sandbox')
+        chromeOptions.add_argument('--disable-dev-shm-usage')
+        
         os.chmod(cg.PATH_DATA_FOLDER + "chromedriver", 0o755)
         
         driver = webdriver.Chrome(executable_path=r"{}{}".format(cg.PATH_DATA_FOLDER, "chromedriver"), options=chromeOptions)
