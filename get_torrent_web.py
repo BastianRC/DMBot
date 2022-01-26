@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 from Data_Folder.config_bot import Config as cg
-import requests, os
+import requests, os, subprocess
 
 class GetDataMovies:
     def __init__(self):
@@ -111,7 +111,8 @@ class GetDataMovies:
         except:
             pass
 
-        os.rename(cg.PATH_SAVE + "/" + name, cg.PATH_SAVE + "/" + self.nameGTorrent[index] + " (" + str(self.yearGTorrent[index]) + ")." + format)
+        subprocess.call(["mv", cg.PATH_SAVE + "/" + name, cg.PATH_SAVE + "/" + self.nameGTorrent[index] + " (" + str(self.yearGTorrent[index]) + ")." + format])
+        #os.rename(cg.PATH_SAVE + "/" + name, cg.PATH_SAVE + "/" + self.nameGTorrent[index] + " (" + str(self.yearGTorrent[index]) + ")." + format)
         os.chmod(cg.PATH_SAVE + "/" + self.nameGTorrent[index] + " (" + str(self.yearGTorrent[index]) + ")." + format, 0o644)
         os.chown(cg.PATH_SAVE + "/" + self.nameGTorrent[index] + " (" + str(self.yearGTorrent[index]) + ")." + format, 0, 0)
 
