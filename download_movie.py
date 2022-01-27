@@ -19,9 +19,8 @@ class Download_MBot:
                 for url in url_data:
                     qb = ConnectQB()
                     if(qb.Download(url, cg.PATH_TEMP_SAVE)):
-                        ef.ExtractMovie()
-                        gm.UpdateMovieDownloaded(ef.filename, ef.filename[len(ef.filename) - 3:len(ef.filename)], count)
-                        print("Información cambiada.")
+                        ef.ExtractMovie(gm.nameGTorrent[count], gm.yearGTorrent[count])
+                        print("Información cambiada: {}".format(ef.nFileName))
 
                         count += 1
                     else:

@@ -6,7 +6,7 @@ class FilesDownloaded:
     def GetFile(self):
         self.dir = os.listdir(cg.PATH_TEMP_SAVE)[0]
         list_files = os.listdir(cg.PATH_TEMP_SAVE + "/" + str(self.dir))
-        self.filename = ""
+        self.extractOn = False
 
         if(len(list_files) > 1):
             file_allow = ""
@@ -14,48 +14,52 @@ class FilesDownloaded:
             for files in list_files:
                 if(files.endswith("part1.zip") or files.endswith("part1.rar")):
                     file_allow = files
+                    self.extractOn = True
+
                     return file_allow
                     
                 elif(files.endswith(".mkv") or files.endswith(".mp4") or files.endswith(".avi")):
-                    os.rename(cg.PATH_TEMP_SAVE + "/" + str(self.dir) + "/" + files, cg.PATH_SAVE + "/" + files)
-                    self.filename = files
-
-                    return None
+                    #os.rename(cg.PATH_TEMP_SAVE + "/" + str(self.dir) + "/" + files, cg.PATH_SAVE + "/" + files)
+                    return files
         else:
-            os.rename(cg.PATH_TEMP_SAVE + "/" + str(self.dir) + "/" + list_files[0], cg.PATH_SAVE + "/" + list_files[0])
-            self.filename = list_files[0]
-
-            return None
+            #os.rename(cg.PATH_TEMP_SAVE + "/" + str(self.dir) + "/" + list_files[0], cg.PATH_SAVE + "/" + list_files[0])
+            return list_files[0]
     
-    def ExtractMovie(self):
+    def ExtractMovie(self, name, year):
         try:
             file = self.GetFile()
 
-            if(file is not None):
+            if(self.extractOn):
                 try:
-                    list_old_files = os.listdir(cg.PATH_SAVE)
-
                     print("Extrayendo datos...")
-                    subprocess.call(['unrar', 'x', '-kb', cg.PATH_TEMP_SAVE + "/" + str(self.dir) + "/" + file, cg.PATH_SAVE], 
+                    subprocess.call(['unrar', 'x', '-kb', cg.PATH_TEMP_SAVE + "/" + str(self.dir) + "/" + file, 
+                    cg.PATH_TEMP_SAVE + "/" + str(os.listdir(cg.PATH_TEMP_SAVE)[0])], 
                     stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
 
-                    list_new_files = os.listdir(cg.PATH_SAVE)
-
-                    if(len(list_new_files) > 1):
-                        for nm_New in list_new_files:
-                            for nm_Old in list_old_files:
-                                if(nm_New != nm_Old):
-                                    self.filename = nm_New
-                    else:
-                        self.filename = list_new_files[0]
-                    
                 except:
                     print("Error al extraer la pelicula")
 
-            self.DeleteFilesNotUtils()
+                self.UpdateMovieDownloaded(name, year)
+            else:
+                self.UpdateMovieDownloaded(file, year)
+
+            #self.DeleteFilesNotUtils()
 
         except:
             pass
+    
+    def UpdateMovieDownloaded(self, new_name, year):
+        list_files = os.listdir(cg.PATH_TEMP_SAVE + "/" + str(os.listdir(cg.PATH_TEMP_SAVE)[0]))
+
+        self.nFileName = ""
+        for file in list_files:
+            if(file.endswith(".mkv") or file.endswith(".mp4") or file.endswith(".avi")):
+                path_nFileName = "{}/{} ({}){}".format(cg.PATH_SAVE, new_name, year, os.path.splitext(file)[1])
+                self.nFileName = "{} ({}){}".format(new_name, year, os.path.splitext(file)[1])
+
+                os.rename(cg.PATH_TEMP_SAVE + "/" + str(os.listdir(cg.PATH_TEMP_SAVE)[0]) + "/" + file, path_nFileName)
+                os.chmod(path_nFileName, 0o644)
+                os.chown(path_nFileName, 0, 0)
 
     def DeleteFilesNotUtils(self):
         try:
@@ -65,4 +69,4 @@ class FilesDownloaded:
 
 if __name__ == "__main__": 
     urlMovies = FilesDownloaded()
-    urlMovies.ExtractMovie()
+    urlMovies.ExtractMovie("La naranja prohibida", 2021)
