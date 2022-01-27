@@ -1,6 +1,6 @@
 from sys import stdout
 from Data_Folder.config_bot import Config as cg
-import os, subprocess
+import os, subprocess, shutil
 
 class FilesDownloaded: 
     def GetFile(self):
@@ -19,10 +19,8 @@ class FilesDownloaded:
                     return file_allow
                     
                 elif(files.endswith(".mkv") or files.endswith(".mp4") or files.endswith(".avi")):
-                    #os.rename(cg.PATH_TEMP_SAVE + "/" + str(self.dir) + "/" + files, cg.PATH_SAVE + "/" + files)
                     return files
         else:
-            #os.rename(cg.PATH_TEMP_SAVE + "/" + str(self.dir) + "/" + list_files[0], cg.PATH_SAVE + "/" + list_files[0])
             return list_files[0]
     
     def ExtractMovie(self, name, year):
@@ -39,11 +37,8 @@ class FilesDownloaded:
                 except:
                     print("Error al extraer la pelicula")
 
-                self.UpdateMovieDownloaded(name, year)
-            else:
-                self.UpdateMovieDownloaded(file, year)
-
-            #self.DeleteFilesNotUtils()
+            self.UpdateMovieDownloaded(name, year)
+            self.DeleteFilesNotUtils()
 
         except:
             pass
@@ -59,14 +54,14 @@ class FilesDownloaded:
 
                 os.rename(cg.PATH_TEMP_SAVE + "/" + str(os.listdir(cg.PATH_TEMP_SAVE)[0]) + "/" + file, path_nFileName)
                 os.chmod(path_nFileName, 0o644)
-                os.chown(path_nFileName, 0, 0)
+                #os.chown(path_nFileName, 0, 0)
 
     def DeleteFilesNotUtils(self):
         try:
-            subprocess.call(['rm', '-r', cg.PATH_TEMP_SAVE + "/" + str(self.dir)], stdout=subprocess.DEVNULL)
+            shutil.rmtree(cg.PATH_TEMP_SAVE + "/" + str(os.listdir(cg.PATH_TEMP_SAVE)[0]))
         except:
             print("Error al eliminar la carpeta")
 
 if __name__ == "__main__": 
     urlMovies = FilesDownloaded()
-    urlMovies.ExtractMovie("La naranja prohibida", 2021)
+    urlMovies.ExtractMovie("Prueba2", 2021)
