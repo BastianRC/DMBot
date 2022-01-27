@@ -93,15 +93,16 @@ class GetDataMovies:
 
         list_torrents = []
         for url, count in zip(urls_down, range(len(urls_down))):
-            if(not os.path.exists("{}.torrent".format(cg.PATH_SAVE_TORRENTS + str(self.name[count])))):
-                r = requests.get(url, cg.HEADERS)
-                open("{}.torrent".format(cg.PATH_SAVE_TORRENTS + str(self.name[count])), "wb").write(r.content)
+            if(url != ""):
+                if(not os.path.exists("{}.torrent".format(cg.PATH_SAVE_TORRENTS + str(self.name[count])))):
+                    r = requests.get(url, cg.HEADERS)
+                    open("{}.torrent".format(cg.PATH_SAVE_TORRENTS + str(self.name[count])), "wb").write(r.content)
 
-                list_torrents.append("{}.torrent".format(cg.PATH_SAVE_TORRENTS + str(self.name[count])))
-                self.nameGTorrent.append(str(self.name[count]))
-                self.yearGTorrent.append(str(self.year[count]))
+                    list_torrents.append("{}.torrent".format(cg.PATH_SAVE_TORRENTS + str(self.name[count])))
+                    self.nameGTorrent.append(str(self.name[count]))
+                    self.yearGTorrent.append(str(self.year[count]))
 
-                print("\nEstreno encontrado: " + str(self.name[count]))
+                    print("\nEstreno encontrado: " + str(self.name[count]))
 
         return list_torrents
 
