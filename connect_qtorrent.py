@@ -9,8 +9,8 @@ class ConnectQB:
         self.qb.login("admin", "adminadmin")
     
     def Download(self, torrent, pSave):
-        #torrent_file = open(torrent, "rb")
-        self.qb.download_from_link(torrent, save_path=pSave)
+        torrent_file = open(torrent, "rb")
+        self.qb.download_from_file(torrent_file, save_path=pSave)
 
         count = 0
         seg = 0
@@ -29,7 +29,6 @@ class ConnectQB:
             state = tr["state"]
             self.nameFile = tr["name"]
 
-            #if(state == "downloading" or state == "stalledUP" or state == "uploading"): # stalledUP -> Finalizado | pausedDL -> Empezando | downloading -> Descargando | uploading -> Subiendo
             if(progress != 101):    
                 if(not first):
                     print("\nDescarga iniciada...")
@@ -42,11 +41,11 @@ class ConnectQB:
                 #Only Python 2.x
                 #sys.stdout.write("\r%s: [%s] %s%s" % (self.nameFile, char, progress, "%"))
                 #sys.stdout.flush()
-                
-                #if(state == "stalledUP" or state == "uploading"):
+
                 if(progress == 100):
                     print("\nDescarga finalizada.\nNombre: " + self.nameFile + "\nFecha: " + str(datetime.datetime.now()))
                     self.qb.delete(tr["hash"])
+
                     return True
                 elif(seg >= cg.TIME_LIMIT and progress == 0):
                     print("\nTiempo de inicio de descarga superado.\nNombre: " + self.nameFile + "\nFecha: " + str(datetime.datetime.now()))

@@ -1,24 +1,26 @@
 from unicodedata import name
 from connect_qtorrent import ConnectQB
 from get_torrent_web import GetDataMovies
+from files_download import FilesDownloaded
 from Data_Folder.config_bot import Config as cg
-import time, asyncio
+import time
 
 class Download_MBot:
     def __init__(self):
         while(True):
             gm = GetDataMovies()
-            url_data = gm.GetUrlDownload()
+            ef = FilesDownloaded()
+
+            url_data = gm.GetTorrents()
             
             count = 0
 
             if(url_data != []):
                 for url in url_data:
                     qb = ConnectQB()
-
-                    if(qb.Download(url, cg.PATH_SAVE)):
-                        gm.UpdateMovieDownloaded(qb.nameFile, qb.nameFile[len(qb.nameFile) - 3:len(qb.nameFile)], count)
-                        print("Información cambiada.")
+                    if(qb.Download(url, cg.PATH_TEMP_SAVE)):
+                        ef.ExtractMovie(gm.nameGTorrent[count], gm.yearGTorrent[count])
+                        print("Información cambiada: {}".format(ef.nFileName))
 
                         count += 1
                     else:
