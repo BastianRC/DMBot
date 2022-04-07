@@ -27,10 +27,14 @@ class GetDataMovies:
         for info in data:
             yr = int(info.find("span", attrs={"class":"year"}).get_text())
             qt = info.find("span", attrs={"class":"Qlty"}).get_text()
-            lg = info.find("span", attrs={"class":"lang"}).find("img")["src"]
 
-            if(lg == "https://www.pelitorrent.com/wp-content/uploads/2017/06/spanish.png"):
-                lg = "Español"
+            try:
+                lg = info.find("span", attrs={"class":"lang"}).find("img")["src"]
+
+                if(lg == "https://www.pelitorrent.com/wp-content/uploads/2017/06/spanish.png"):
+                    lg = "Español"
+            except AttributeError:
+                pass
             
             if(yr >= cg.YEAR_SEARCH):
                 if(str(lg) == "Español" and qt == "MicroHD" or qt == "BluRayRip"):
